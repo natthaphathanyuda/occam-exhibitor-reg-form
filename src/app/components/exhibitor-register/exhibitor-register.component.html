@@ -1,0 +1,111 @@
+<hr *ngIf="!isSubmitted" class="mt-4 mb-3">
+<div class="container-fluid">
+  <div class="progress-message" *ngIf="isSubmitted">
+    <div class="progress-message-header">
+      {{failedExhibitorCount}} out of {{exhibitors.length}} submissions have failed.
+    </div>
+    <div class="progress-message-body">
+      To view your badge collection code, you may edit or remove your entries, and click Register. 
+    </div>
+  </div>
+
+  <p class="text-muted mb-2" *ngIf="!isSubmitted">* All fields are mandatory.</p>
+  <div *ngIf="isSubmitted" class="mb-3">
+    <div class="progress-message-header">
+      Note:
+    </div>
+    <div>
+      Do not refresh the page, as doing so may result in the loss of all your records.
+    </div>
+  </div>
+  <form [formGroup]="exhibitorForm">
+    <ng-container formArrayName="exhibitors">
+      <ng-container *ngFor="let exhibitor of exhibitors.controls; let i = index" [formGroupName]="i">
+        <ng-container *ngIf="!exhibitor.get('isRegistered')?.value || !isSubmitted">
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span class="fw-bold">Exhibitor #{{i + 1}}</span>
+              <button *ngIf="exhibitors.length > 1" type="button" class="btn btn-link text-danger p-0"
+                (click)="removeExhibitor(i)">
+                Remove
+              </button>
+            </div>
+
+            <div class="card-body">
+              <div *ngIf="exhibitor.get('errorMessage')?.value">
+                <div class="text-danger mb-2">
+                  {{exhibitor.get('errorMessage')?.value}}
+                </div>
+              </div>
+              <div class="exhibitor-input">
+                <label for="email{{i}}" class="form-label text-head-small py-0 my-0">Email Address</label>
+                <input type="email" class="form-control" id="email{{i}}" formControlName="S_email"
+                  [ngClass]="{'is-invalid': exhibitor.get('S_email')?.invalid && exhibitor.get('S_email')?.touched}"
+                  [readonly]="isLoading">
+                <div *ngIf="exhibitor.get('S_email')?.errors?.['email']" class="text-danger">
+                  Invalid email address.
+                </div>
+              </div>
+
+              <div class="exhibitor-input">
+                <label for="name{{i}}" class="form-label text-head-small py-0 my-0">Name on Badge</label>
+                <input type="text" class="form-control" id="name{{i}}" formControlName="S_name_on_badge"
+                  [ngClass]="{'is-invalid': exhibitor.get('S_name_on_badge')?.invalid && exhibitor.get('S_name_on_badge')?.touched}"
+                  [readonly]="isLoading">
+              </div>
+
+              <div class="exhibitor-input">
+                <label for="jobTitle{{i}}" class="form-label text-head-small py-0 my-0">Job Title</label>
+                <input type="text" class="form-control" id="jobTitle{{i}}" formControlName="S_job_title"
+                  [ngClass]="{'is-invalid': exhibitor.get('S_job_title')?.invalid && exhibitor.get('S_job_title')?.touched}"
+                  [readonly]="isLoading">
+              </div>
+
+              <div class="exhibitor-input">
+                <label for="country{{i}}" class="form-label text-head-small py-0 my-0">Country</label>
+                <div class="dropdown">
+                  <button class="form-select text-start" [class.p-4]="!exhibitor.get('S_country')?.value" type="button"
+                    id="country{{i}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    (focus)="exhibitor.get('isDropdownOpen')?.setValue(true)"
+                    (blur)="exhibitor.get('isDropdownOpen')?.setValue(false)" [disabled]="isLoading">
+                    {{exhibitor.get('S_country')?.value }}
+                  </button>
+                  <div class="dropdown-menu w-100 py-0" [class.show]="exhibitor.get('isDropdownOpen')?.value">
+                    <div class="dropdown-item" [class.active]="exhibitor.get('S_country')?.value === country.country"
+                      *ngFor="let country of countries"
+                      (mousedown)="exhibitor.get('S_country')?.setValue(country.country)">
+                      {{country.country}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="exhibitor-input">
+                <label for="company{{i}}" class="form-label text-head-small py-0 my-0">Company on Badge</label>
+                <input type="text" class="form-control" id="company{{i}}" formControlName="S_company_on_badge"
+                  [ngClass]="{'is-invalid': exhibitor.get('S_company_on_badge')?.invalid && exhibitor.get('S_company_on_badge')?.touched}"
+                  [readonly]="isLoading">
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </form>
+</div>
+<div class="container-fluid">
+  <div class="d-grid">
+    <button type="button" class="btn btn-link text-decoration-none py-2 mb-4" (click)="addExhibitor()"
+      [disabled]="isLoading">
+      <i class="bi bi-plus-circle me-2"></i>Add Exhibitor
+    </button>
+  </div>
+</div>
+
+<hr class="p-0 mb-4 mt-0">
+<div class="container-fluid register-button">
+  <div class="d-grid">
+    <button type="submit" class="btn btn-primary" (click)="register()" [disabled]="checkExhibitors || isLoading">
+      Register
+    </button>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="min-vh-100 home-background">
+  <div class="container-fluid p-0">
+    <img src="../../../assets/banner.png" class="img-fluid" width="100%" />
+    <div class="container-fluid" *ngIf="!isSubmit">
+      <div class="row mt-4">
+        <div class="col ">
+          <div class="text-head text-primary">Onsite Exhibitors Registration</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <form [formGroup]="eventSelectionForm">
+                <div class="mb-3">
+                  <label class="form-label text-head-small">Event Selection</label>
+                  <div class="form-check py-2">
+                    <input class="form-check-input" type="radio" formControlName="S_event" id="FHA-Food & Beverage"
+                      value="FHA-Food & Beverage" (change)="onEventChange()">
+                    <label class="form-check-label" for="FHA-Food & Beverage">
+                      FHA-Food & Beverage
+                    </label>
+                  </div>
+                  <div class="form-check py-2">
+                    <input class="form-check-input" type="radio" formControlName="S_event" id="Prowine Singapore"
+                      value="Prowine Singapore" (change)="onEventChange()">
+                    <label class="form-check-label" for="Prowine Singapore">
+                      ProWine Singapore
+                    </label>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="text-head-small">Company</div>
+                  <small class="text-muted text-body-small d-block mb-2">
+                    If you are unable to find your company name, please approach our Exhibitor Team for assistance.
+                  </small>
+                  <div class="dropdown">
+                    <button class="form-select text-start" type="button" id="eventSelectButton"
+                      data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                      (focus)="isDropdownOpen = true" (blur)="isDropdownOpen = false" [disabled]="isLoading">
+                      {{eventSelectionForm.get('S_company')?.value || 'Please select'}}
+                    </button>
+                    <div class="dropdown-menu w-100 py-0" [class.show]="isDropdownOpen"
+                      aria-labelledby="eventSelectButton">
+                      <div class="dropdown-item"
+                        [class.active]="eventSelectionForm.get('S_company')?.value === company.S_company"
+                        *ngFor="let company of companyMap[eventSelectionForm.get('S_event')?.value]"
+                        (mousedown)="onCompanySelect(company.S_company)">
+                        {{company.S_company}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="isCompanySelected">
+    <app-exhibitor-register [event]="eventSelectionForm.get('S_event')?.value"
+      [company]="eventSelectionForm.get('S_company')?.value" (isSubmit)="onSubmit($event)"></app-exhibitor-register>
+  </ng-container>
+</div>

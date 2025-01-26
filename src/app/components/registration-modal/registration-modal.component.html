@@ -1,0 +1,15 @@
+<div class="modal-content text-center">
+  <div class="modal-title mb-4">Registration Completed</div>
+  <div class="mb-4 d-flex flex-column align-items-center">
+    <p class="modal-text mb-1">Your unique code is</p>
+    <div class="registration-code text-primary">
+      <span [class.me-2]="index !== splittedCode.length - 1" *ngFor="let char of splittedCode; let index = index">{{
+        char }}</span>
+    </div>
+  </div>
+
+  <div class="d-grid gap-2">
+    <button class="btn btn-primary" (click)="saveAsImage()">Save as Image</button>
+    <button class="btn btn-link text-decoration-none" (click)="closeModal()">Back to Home</button>
+  </div>
+</div>

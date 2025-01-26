@@ -1,0 +1,112 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+// @use '@angular/material' as mat;
+
+// html {
+//   @include mat.theme((color: (theme-type: light,
+//         primary: $primary,
+//         // tertiary: mat.$blue-palette,
+//       ),
+//       typography: Roboto,
+//       density: 0,
+//     ));
+// }
+
+$primary: #ee4036;
+$body-color: #6e6b7b;
+$border-color: #dddbe2;
+$btn-link-hover-color: #f7682d;
+
+@use "bootstrap/scss/bootstrap" with ($primary: $primary, $body-color: $body-color, $border-color: $border-color, $btn-link-hover-color: $btn-link-hover-color);
+
+body {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.form-check-input:checked {
+  background-image: none !important;
+}
+
+.form-check-input {
+  border-color: #6e6b7b;
+}
+
+.card-header {
+  background-color: #fde8e7;
+}
+
+.btn-primary {
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #f7682d !important;
+  color: #fff !important;
+}
+
+.btn:disabled.btn-primary {
+  color: #fff !important;
+}
+
+.dropdown-item:hover {
+  background-color: #ee4036 !important;
+  color: #fff !important;
+  cursor: pointer;
+}
+
+.dropdown-item.active {
+  background-color: #fde8e7;
+  color: #ee4036;
+}
+
+.text-head-small {
+  font-size: 12px;
+}
+
+.text-body-small {
+  font-size: 11px;
+}
+
+.text-head {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.form-select,
+.form-control {
+  padding: 11px 10px;
+}
+
+.card-header {
+  padding: 16px 14px;
+}
+
+.card-body {
+  padding: 16px 14px;
+}
+
+.exhibitor-input {
+  margin-bottom: 14px;
+}
+
+.register-button {
+  padding-bottom: 144px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: #6e6b7b !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
