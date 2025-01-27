@@ -37,11 +37,9 @@ export class RegistrationModalComponent implements OnInit {
             link.download = `registration-code-${this.code}.png`;
             link.href = dataUrl;
             link.click();
-            this.closeModal();
           })
           .catch((error: any) => {
             console.error('Error generating image:', error);
-            this.closeModal();
           });
       });
     }

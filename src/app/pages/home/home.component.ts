@@ -13,7 +13,7 @@ import { map } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   eventSelectionForm: FormGroup = new FormGroup({
-    S_event: new FormControl('FHA-Food & Beverage'),
+    S_event: new FormControl(''),
     S_company: new FormControl('')
   });
   companyMap: { [event: string]: any[] } = {};
@@ -33,10 +33,8 @@ export class HomeComponent implements OnInit {
 
   onCompanyChange() {
     this.eventSelectionForm.get('S_company')?.valueChanges.subscribe((value) => {
-      if (this.eventSelectionForm.get('S_company')?.value) {
+      if (this.eventSelectionForm.get('S_company')?.value && !this.isCompanySelected) {
         this.isCompanySelected = true;
-      } else {
-        this.isCompanySelected = false;
       }
     });
   }
@@ -70,8 +68,7 @@ export class HomeComponent implements OnInit {
   }
 
   onEventChange() {
-    const event = this.eventSelectionForm.get('S_event')?.value;
-    this.eventSelectionForm.get('S_company')?.setValue(this.companyMap[event][0].S_company);
+    this.eventSelectionForm.get('S_company')?.setValue('');
   }
 
   onCompanySelect(company: string) {
@@ -82,7 +79,10 @@ export class HomeComponent implements OnInit {
     if (isSubmit) {
       this.isSubmit = true;
     } else {
+      this.eventSelectionForm.get('S_company')?.setValue('');
+      this.eventSelectionForm.get('S_event')?.setValue('');
       this.isSubmit = false;
+      this.isCompanySelected = false;
     }
   }
 }
